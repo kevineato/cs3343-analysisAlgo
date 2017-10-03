@@ -1,0 +1,96 @@
+\documentclass[12pt]{elsart}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{program}
+\newcommand{\field}[1]{\mathbb{#1}}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Space to make more readable!
+%\vspace{10 mm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%Take out later!
+
+\begin{document}
+
+\pagestyle{empty}
+
+\begin{center}
+\Large  CS3343 Analysis of Algorithms Fall 2017 \\
+\large {\bf Homework 4}\\
+\normalsize Due 10/15/17 before 11:59pm (Central Time)
+\end{center}
+
+{\bf 1.  Heapsort (4 points)}
+
+Originally we stored our heap in an array.  Consider instead storing our heap as a doubly linked list.  
+
+\begin{enumerate}
+   \item (2 points) For a node $i$ what are the new asymptotic run times for  $left(i)$, $right(i)$, and $parent(i)$?  Justify your answer.
+
+  \item (2 points) How does this affect the run times of findMax(), insert(key), extractMax()?  Justify your answer.
+\end{enumerate}
+
+{\bf 2.  Counting Sort (4 points)}
+
+\begin{algorithm}
+\caption{void countingSort(int $A[1\ldots n]$, int $k$)}
+ \begin{algorithmic}[1]
+ \State //Precondition: The $n$ values in $A$ are all between $0$ and $k$
+ \State Let $C[0\ldots k]$ be a new array
+ \State //We will store our sorted array in the array $B$.
+ \State Let $B[1\ldots n]$ be a new array 
+\For{$i = 0$ {\bf to} $k$}
+        \State $C[i]=0$;
+  \EndFor
+\For{$i = 1$ {\bf to} $n$}
+        \State $C[A[i]]=C[A[i]]+1$;
+  \EndFor
+\State //$C[i]$ now contains the \# of elements in $A$ equal to $i$
+\For{$i = 1$ {\bf to} $k$}
+        \State $C[i]=C[i]+C[i-1]$;
+  \EndFor
+\State //$C[i]$ now contains the \# of elements in $A$ that are $\leq$ to $i$
+\For{$i = n$ {\bf down to} $1$}
+        \State $B[C[A[i]]]=A[i]$;
+        \State $C[A[i]]=C[A[i]]-1$;
+  \EndFor
+\State return $B$;
+\end{algorithmic}
+\end{algorithm}
+
+\begin{enumerate}
+   \item (2 points) Illustrate the operation of $countingSort(\{2,1,5,3,1,2,5\},6)$.  Specifically, show the changes made to the arrays $A$, $B$, and $C$ for each pass through the for loop at line 16.
+
+\vspace*{0.5cm}
+\hfill \textit{Continued on the back \(\hookrightarrow\)}
+
+\newpage
+   \item (2 points) Describe an algorithm that, given an unsorted array of $n$ integers in the range $0$ to $k$, preprocesses its
+input and then answers any query about how many of the $n$ integers fall into a range $a$ to $b$ in $O(1)$ time. Your algorithm should use $O(n+k)$ preprocessing time.
+\\\\(Hint: Look at the array $C$ which is computed by the above code for inspiration)
+\end{enumerate}
+
+{\bf 3.  Hash Table (7 points)}
+
+\begin{enumerate}
+   \item Consider inserting the keys $2, 21, 3, 58, 11, 42, 34$ into a hash
+table of length $m = 10$ with the hash function $h(k) = k \bmod 10$.
+\begin{enumerate}
+   \item (2 points)  Illustrate the result of inserting these keys using linear probing to resolve collisions.
+   \item (2 points) Illustrate the result of inserting these keys using chaining to resolve collisions.
+\end{enumerate}
+
+   \item Consider inserting the keys $8,5,14$ into a hash
+table of length $m = 8$ with the hash function $h(k) = \lfloor m(kA - \lfloor kA\rfloor)\rfloor$ where $A=0.625$.
+\begin{enumerate}
+   \item (2 points) Illustrate the result of inserting these keys.
+   \item (1 point) Now compute the hash function of the key $14$ using the implementation we described in our notes.  
+\\\\You can assume we have a word size $w=4$. Since $m=8=2^3$, $p=3$.  Since $A=0.625=10/2^4=10/2^w$, $s=10$.
+\\\\(Hint: Compute $ks$ and convert it to a binary number.  This number will consist of $\leq 2w$ bits.  Look at the rightmost $w$ bits.  Of those bits, convert the leftmost $p$ bits back to an integer.  This integer is your hash table slot.)
+\end{enumerate}
+
+
+\end{enumerate}
+
+\end{document}
